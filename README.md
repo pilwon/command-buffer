@@ -19,26 +19,6 @@
 var CommandBuffer = require('command-buffer');
 ```
 
-### Sample Code
-
-```js
-var commands = new CommandBuffer(function (type, data) {
-	switch (type) {
-	case 'send':
-		console.log(data);
-		break;
-	default:
-		break;
-	}
-}, this);
-
-commands.add('send', 'something');
-commands.pause();
-commands.add('send', 'something else');
-commands.add('send', 'something else again');
-commands.resume();
-```
-
 
 ### API
 
@@ -46,6 +26,27 @@ commands.resume();
 var commands = new CommandBuffer(callback);  // callback = function (type, data) {}
 commands.add(type, data);
 commands.pause();
+commands.resume();
+```
+
+
+## Example
+
+```js
+var commands = new CommandBuffer(function (type, data) {
+  switch (type) {
+  case 'send':
+    console.log(data);
+    break;
+  default:
+    break;
+  }
+}, this);
+
+commands.add('send', 'something');
+commands.pause();
+commands.add('send', 'something else');
+commands.add('send', 'something else again');
 commands.resume();
 ```
 
