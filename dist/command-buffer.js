@@ -68,17 +68,18 @@
     this._processing = false;
   };
 
-  CommandBuffer.prototype.add = function (type, data) {
-    this._commands.push({
-      type: type,
-      data: data
-    });
+  CommandBuffer.prototype.pause = function () {
+    this._paused = true;
+  };
+
+  CommandBuffer.prototype.resume = function () {
+    this._paused = false;
     if (!this._processing) {
       this._process();
     }
   };
 
-  CommandBuffer.prototype.addToCurrent = function (type, data) {
+  CommandBuffer.prototype.run = function (type, data) {
     this._commandsCurrent.push({
       type: type,
       data: data
@@ -88,16 +89,15 @@
     }
   };
 
-	CommandBuffer.prototype.pause = function () {
-		this._paused = true;
-	};
-
-	CommandBuffer.prototype.resume = function () {
-		this._paused = false;
-		if (!this._processing) {
+  CommandBuffer.prototype.schedule = function (type, data) {
+    this._commands.push({
+      type: type,
+      data: data
+    });
+    if (!this._processing) {
       this._process();
     }
-	};
+  };
 
 	// some AMD build optimizers like r.js check for condition patterns like the following:
   if (typeof define === 'function' && typeof define.amd === 'object' && define.amd) {

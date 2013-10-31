@@ -24,10 +24,10 @@ var CommandBuffer = require('command-buffer');
 
 ```js
 var commands = new CommandBuffer(callback);  // callback = function (type, data) {}
-commands.add(type, data);
-commands.addToCurrent(type, data);
 commands.pause();
 commands.resume();
+commands.run(type, data);
+commands.schedule(type, data);
 ```
 
 
@@ -44,11 +44,11 @@ var commands = new CommandBuffer(function (type, data) {
   }
 }, this);
 
-commands.add('send', 'something');
+commands.schedule('send', 'something');
 // OUTPUT --> something
 commands.pause();
-commands.add('send', 'something else');
-commands.addToCurrent('send', 'something else again');
+commands.schedule('send', 'something else');
+commands.run('send', 'something else again');
 commands.resume();
 // OUTPUT --> something else again
 // OUTPUT --> something else
