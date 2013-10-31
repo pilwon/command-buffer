@@ -1,0 +1,40 @@
+{
+  "name": "command-buffer",
+  "description": "Simple command buffer abstraction library written in JavaScript.",
+  "version": "0.1.0",
+  "license": "MIT",
+  "author": {
+    "name": "Pilwon Huh",
+    "email": "pilwon@gmail.com"
+  },
+  "homepage": "https://github.com/pilwon/command-buffer",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/pilwon/command-buffer.git"
+  },
+  "keywords": [
+    "command",
+    "commands",
+    "buffer",
+    "buffering",
+    "helper",
+    "queue",
+    "library",
+    "javascript"
+  ],
+  "main": "dist/command-buffer.js",
+  "dependencies": {},
+  "devDependencies": {
+    "grunt": "~0.4.1",
+    "grunt-contrib-jshint": "~0.7.0",
+    "grunt-contrib-watch": "~0.5.3",
+    "grunt-mocha-test": "~0.7.0",
+    "matchdep": "~0.3.0",
+    "mocha": "~1.13.0",
+    "node-gyp": "~0.11.0"
+  },
+  "scripts": {
+    "prepublish": "npm prune",
+    "test": "grunt test"
+  }
+}
