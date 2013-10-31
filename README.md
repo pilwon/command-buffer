@@ -42,8 +42,6 @@ commands.resume();
 
 ### API
 
-#### General
-
 ```js
 var commands = new CommandBuffer(callback);  // callback = function (type, data) {}
 commands.add(type, data);
