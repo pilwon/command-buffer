@@ -39,25 +39,54 @@
 		this._cb = onCommandCallback;
 		this._cbCtx = onCommandCallbackContext;
 		this._commands = [];
+    this._commandsCurrent = [];
 		this._paused = false;
+    this._processing = false;
 	};
+
+  CommandBuffer.prototype._concatCurrentCommands = function () {
+    this._commands = this._commandsCurrent.concat(this._commands);
+    this._commandsCurrent = [];
+  };
 
   CommandBuffer.prototype._process = function () {
     var command;
+
+    this._concatCurrentCommands();
+
     while (!this._paused) {
+      this._processing = true;
+
       command = this._commands.shift();
       if (!command) { break; }
+
       this._cb.call(this._cbCtx, command.type, command.data);
+
+      this._concatCurrentCommands();
+    }
+
+    this._processing = false;
+  };
+
+  CommandBuffer.prototype.add = function (type, data) {
+    this._commands.push({
+      type: type,
+      data: data
+    });
+    if (!this._processing) {
+      this._process();
     }
   };
 
-	CommandBuffer.prototype.add = function (type, data) {
-		this._commands.push({
-			type: type,
-			data: data
-		});
-		this._process();
-	};
+  CommandBuffer.prototype.addToCurrent = function (type, data) {
+    this._commandsCurrent.push({
+      type: type,
+      data: data
+    });
+    if (!this._processing) {
+      this._process();
+    }
+  };
 
 	CommandBuffer.prototype.pause = function () {
 		this._paused = true;
@@ -65,7 +94,9 @@
 
 	CommandBuffer.prototype.resume = function () {
 		this._paused = false;
-		this._process();
+		if (!this._processing) {
+      this._process();
+    }
 	};
 
 	// some AMD build optimizers like r.js check for condition patterns like the following:

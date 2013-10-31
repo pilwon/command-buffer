@@ -25,6 +25,7 @@ var CommandBuffer = require('command-buffer');
 ```js
 var commands = new CommandBuffer(callback);  // callback = function (type, data) {}
 commands.add(type, data);
+commands.addToCurrent(type, data);
 commands.pause();
 commands.resume();
 ```
@@ -44,10 +45,13 @@ var commands = new CommandBuffer(function (type, data) {
 }, this);
 
 commands.add('send', 'something');
+// OUTPUT --> something
 commands.pause();
 commands.add('send', 'something else');
-commands.add('send', 'something else again');
+commands.addToCurrent('send', 'something else again');
 commands.resume();
+// OUTPUT --> something else again
+// OUTPUT --> something else
 ```
 
 
