@@ -20,7 +20,7 @@ var CommandBuffer = require('command-buffer');
 ```
 
 
-### API
+## API
 
 ```js
 var commands = new CommandBuffer(callback);  // callback = function (type, data) {}
