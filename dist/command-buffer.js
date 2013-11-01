@@ -76,6 +76,7 @@
 
   CommandBuffer.prototype.resume = function () {
     this._paused = false;
+    this._concatCurrentCommands();
     if (!this._processing) {
       this._process();
     }
