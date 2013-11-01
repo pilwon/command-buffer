@@ -8,7 +8,7 @@
  */
 
 ;(function () {
-	var objectTypes = {
+  var objectTypes = {
     boolean: false,
     function: true,
     object: true,
@@ -17,7 +17,7 @@
     undefined: false
   };
 
-	// Used as a reference to the global object.
+  // Used as a reference to the global object.
   var root = (objectTypes[typeof window] && window) || this;
 
   // Detect free variable `exports`.
@@ -35,27 +35,29 @@
     root = freeGlobal;
   }
 
-	var CommandBuffer = function (onCommandCallback, onCommandCallbackContext) {
-		this._cb = onCommandCallback;
-		this._cbCtx = onCommandCallbackContext;
-		this._commands = [];
+  var CommandBuffer = function (onCommandCallback, onCommandCallbackContext) {
+    this._cb = onCommandCallback;
+    this._cbCtx = onCommandCallbackContext;
+    this._commands = [];
     this._commandsCurrent = [];
-		this._paused = false;
+    this._paused = false;
     this._processing = false;
-	};
+  };
 
   CommandBuffer.prototype._concatCurrentCommands = function () {
     this._commands = this._commandsCurrent.concat(this._commands);
-    this._commandsCurrent = [];
+    this._commandsCurrent.length = 0;
   };
 
   CommandBuffer.prototype._process = function () {
     var command;
 
-    this._concatCurrentCommands();
-
     while (!this._paused) {
       this._processing = true;
+
+      if (!this._commands.length) {
+        this._concatCurrentCommands();
+      }
 
       command = this._commands.shift();
       if (!command) { break; }
@@ -99,7 +101,7 @@
     }
   };
 
-	// some AMD build optimizers like r.js check for condition patterns like the following:
+  // some AMD build optimizers like r.js check for condition patterns like the following:
   if (typeof define === 'function' && typeof define.amd === 'object' && define.amd) {
     // Expose CommandBuffer to the global object even when an AMD loader is present in
     // case CommandBuffer was injected by a third-party script and not intended to be
